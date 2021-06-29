@@ -10,7 +10,11 @@ class Game extends Component {
         this.guessNumber.focus();
     }
 
-    newGame = () => this.setState(InitalState());
+    newGame = () => {
+        this.setState(InitalState());
+        this.submitGuess.removeAttribute("disabled", "disabled");
+        this.guessNumber.removeAttribute("disabled", "disabled");
+    }
 
     checkGuess(event) {
         event.preventDefault();
@@ -32,12 +36,18 @@ class Game extends Component {
                     classButtonNewGame: "par bg-success bg-newgame"
                 });
 
+                this.submitGuess.setAttribute("disabled", "disabled");
+                this.guessNumber.setAttribute("disabled", "disabled");
+
             } else if (this.state.guessCount === 1) {
                 this.setState({
                     result: "GAME OVER!",
                     classResult: "par bg-warning",
                     classButtonNewGame: "par bg-warning bg-newgame"
                 });
+
+                this.submitGuess.setAttribute("disabled", "disabled");
+                this.guessNumber.setAttribute("disabled", "disabled");
 
             } else if (guessValue > randomValue) {
                 this.setState({
@@ -58,7 +68,7 @@ class Game extends Component {
             <div className="container">
                 <form className="form-block" onSubmit={this.checkGuess}>
                     <label>Enter a number:</label>
-                    <input className="main-input" name="guessNumber" type="number" min="1" max="100" ref={(input) => { this.guessNumber = input; }} />
+                    <input className="main-input" name="guessNumber" type="number" min="1" max="100" ref={(input) => { this.guessNumber = input; }} required />
                     <button className="btn" type="submit" ref={(button) => { this.submitGuess = button; }} >Submit</button>
                     <input className="btn" type="reset" value="Clear" />
                     <button className="btn" type="button" onClick={this.newGame}> Reset </button>
